@@ -20,9 +20,10 @@
 //		$("document").on("click", ".buttons", function() {}) - makes sure that any time a button (.button) is added, it can run the function
 
 
-var topics = ["odesza", "bassnectar", "above and beyond", "porter robinson", "tchami", "galantis", "dillon francis", "armin van buuren",
-				"claude vonstroke", "kaskade", "duke dumont", "illenium", "rezz", "cosmic gate", "alesso", "dada life", "zomboy", 
-				"zeds dead", "what so not", "nghtmre"];
+var topics = ["new york rangers", "boston bruins", "montreal canadiens", "toronto maple leafs", "tampa bay lightning", "new jersey devils",
+ 				"carolina hurricanes", "las vegas golden knights", "vancouver canucks", "chicago blackhawks", "pittsburgh penguins",
+ 				"nashville predators", "florida panthers", "calgary flames", "dallas stars", "philadelphia flyers", "arizona coyotes",
+ 				"new york islanders", "washington capitals", "edmonton oilers"];
 
 var queryBase = "https://api.giphy.com/v1/gifs/random?api_key=G5DXEBd2eTpUTuyA0LvDQJcDYjmtWZXl&q="
 
@@ -31,10 +32,13 @@ $("document").ready(function() {
 
 })
 
-$(document).on("click", "#band", function() {
+$(document).on("click", ".band", function() {
 
 		var bandValue = $(this).attr("value");
 		console.log(bandValue);
+
+		var band = bandValue.toString();
+		console.log(band);
 
 		var queryURL = queryBase + band;
 		$.ajax({
@@ -62,7 +66,8 @@ $(document).on("click", "#band", function() {
 		for (var i = 0; i < topics.length; i++) {
 			var button = $("<button type='button' class='btn btn-primary'></button>");
 			button.attr("value", topics[i]);
-			button.attr("id", "band");
+			button.attr("id", "band-" + i);
+			button.addClass("band");
 			button.text(topics[i]);
 			$(".gifs-div").append(button);
 		}
