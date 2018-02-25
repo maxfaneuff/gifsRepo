@@ -27,29 +27,35 @@ var topics = ["odesza", "bassnectar", "above and beyond", "porter robinson", "tc
 var queryBase = "https://api.giphy.com/v1/gifs/random?api_key=G5DXEBd2eTpUTuyA0LvDQJcDYjmtWZXl&q="
 
 $("document").ready(function() {
-	alert("ready");
 	makeButtons();
+
 })
 
 $(document).on("click", "#band", function() {
 
-		var band = $(this).attr("value");
-		alert(band);
+		var bandValue = $(this).attr("value");
+		console.log(bandValue);
 
-		
+		var queryURL = queryBase + band;
+		$.ajax({
+			url: queryURL,
+			method: "GET"
+		}).then(function(response) {
+			console.log(queryURL);
+			// var results = response.data;
+
+			// for (var i = 0; i < 11; i++) {
+
+			// 	var gifDiv = $("<div>");
+
+			// 	var rating = $("<p>").text("Rating: " +)
+			// }
+
+
+		});
+
 })
 	
-	$("#submit").on("click", function() {
-		console.log("working");
-		event.preventDefault();
-
-		$(".gifs-div").empty();
-
-		var newBand = $("#email").val().trim();
-		topics.append(newBand);
-		makeButtons();
-		console.log(newBand);
-	})
 
 	function makeButtons() {
 
