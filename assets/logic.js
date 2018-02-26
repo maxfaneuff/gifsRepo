@@ -12,7 +12,7 @@
 	// - When another button is clicked, the #gifs-div empties out, and new gifs & ratings append into it
 	// - When a band is entered into the text field, that entry is captured a string, and added to the topics array.
 	//   Another button is appended to the #buttons-div.  
-	// - The AJAX runs on the .on("click").  When the buttons are generated, it sets the .attr("value", "band").  The value is 
+	// - The AJAX runs on the .on("click").  When the buttons are generated, it sets the .attr("value", "team").  The value is 
 	//   added into the queryURL by setting a varialbe to that value and putting it in the middle of the query
 
 
@@ -25,50 +25,104 @@ var topics = ["new york rangers", "boston bruins", "montreal canadiens", "toront
  				"nashville predators", "florida panthers", "calgary flames", "dallas stars", "philadelphia flyers", "arizona coyotes",
  				"new york islanders", "washington capitals", "edmonton oilers"];
 
-var queryBase = "https://api.giphy.com/v1/gifs/random?api_key=G5DXEBd2eTpUTuyA0LvDQJcDYjmtWZXl&q="
+var queryBase = "https://api.giphy.com/v1/gifs/search?api_key=G5DXEBd2eTpUTuyA0LvDQJcDYjmtWZXl&q="
 
 $("document").ready(function() {
 	makeButtons();
 
+	$("#submit").on("click", function() {
+	newButton();
+
+	})
+
 })
 
-$(document).on("click", ".band", function() {
+$(document).on("click", ".team", function() {
+		$(".gifs-div").empty();
 
-		var bandValue = $(this).attr("value");
-		console.log(bandValue);
+		var teamValue = $(this).attr("value");
+		console.log(teamValue);
 
-		var band = bandValue.toString();
-		console.log(band);
+		// var teamString = JSON.stringify(teamValue);
+		var team = teamValue.replace(new RegExp(" ", "g"), '+');
+				//I have NO IDEA what new RegExp does, and I don't care//
+		console.log(team);
 
-		var queryURL = queryBase + band;
+		var queryURL = queryBase + team;
+
 		$.ajax({
 			url: queryURL,
 			method: "GET"
 		}).then(function(response) {
 			console.log(queryURL);
-			// var results = response.data;
+			var results = response.data;
 
-			// for (var i = 0; i < 11; i++) {
+			for (var i = 0; i < 11; i++) {
 
-			// 	var gifDiv = $("<div>");
+				var gifDiv = $("<div>");
 
-			// 	var rating = $("<p>").text("Rating: " +)
-			// }
+				var rating = $("<p>").text("Rating: " + response.data[i].rating);
+
+				var hockeyGif = $("<img>");
+
+				hockeyGif.attr("src", response.data[i].images.original_still.url);
+				hockeyGif.attr("gif-still", response.data[i].images.original_still.url);
+				hockeyGif.attr("gif-anim", response.data[i].images.original.url);
+				hockeyGif.attr("data-state", "still");
+				hockeyGif.addClass("hockeyGif");
+
+				gifDiv.append(rating);
+				gifDiv.append(hockeyGif);
+				console.log("-------");
+				console.log(hockeyGif.attr("gif-anim"));
+
+				$(".gifs-div").append(gifDiv);
+
+				$(document).on("click", ".hockeyGif", function() {
+
+					var state = $(this).attr("data-state");
+					var gifAnim = $(this).attr("gif-anim");
+					var gifStill = $(this).attr("gif-still");
+
+					if (state === "still") {
+						$(this).attr("src", gifAnim);
+						$(this).attr("data-state", "anim");
+						return;
+					} else if (state === "anim") {
+						$(this).attr("src", gifStill);
+						$(this).attr("data-state", "still");
+						return;
+					}
+
+
+				})
+
+			}
 
 
 		});
-
 })
+
+
 	
+	function newButton() {
+		event.preventDefault();
+
+		var newTeam = $("#textField").val().toLowerCase();
+		console.log(newTeam);
+		topics.push(newTeam);
+		$(".buttons-div").empty();
+		makeButtons();
+	}
 
 	function makeButtons() {
 
 		for (var i = 0; i < topics.length; i++) {
 			var button = $("<button type='button' class='btn btn-primary'></button>");
 			button.attr("value", topics[i]);
-			button.attr("id", "band-" + i);
-			button.addClass("band");
+			button.attr("id", "team-" + i);
+			button.addClass("team");
 			button.text(topics[i]);
-			$(".gifs-div").append(button);
+			$(".buttons-div").append(button);
 		}
 	}
