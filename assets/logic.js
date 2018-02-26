@@ -21,7 +21,7 @@
 
 
 var topics = ["new york rangers", "boston bruins", "montreal canadiens", "toronto maple leafs", "tampa bay lightning", "new jersey devils",
- 				"carolina hurricanes", "las vegas golden knights", "vancouver canucks", "chicago blackhawks", "pittsburgh penguins",
+ 				"carolina hurricanes", "vancouver canucks", "chicago blackhawks", "pittsburgh penguins",
  				"nashville predators", "florida panthers", "calgary flames", "dallas stars", "philadelphia flyers", "arizona coyotes",
  				"new york islanders", "washington capitals", "edmonton oilers"];
 
@@ -77,8 +77,9 @@ $(document).on("click", ".team", function() {
 				console.log(hockeyGif.attr("gif-anim"));
 
 				$(".gifs-div").append(gifDiv);
+			}
 
-				$(document).on("click", ".hockeyGif", function() {
+				$(".hockeyGif").on("click", function() {
 
 					var state = $(this).attr("data-state");
 					var gifAnim = $(this).attr("gif-anim");
@@ -97,7 +98,6 @@ $(document).on("click", ".team", function() {
 
 				})
 
-			}
 
 
 		});
@@ -110,6 +110,15 @@ $(document).on("click", ".team", function() {
 
 		var newTeam = $("#textField").val().toLowerCase();
 		console.log(newTeam);
+		if(newTeam === "boston red sox"){
+			alert("Death to the Boston Red Sox");
+		}
+
+		if(topics.indexOf(newTeam) != -1) {
+			alert("There's a button for that already!");
+			return;
+		}
+
 		topics.push(newTeam);
 		$(".buttons-div").empty();
 		makeButtons();
