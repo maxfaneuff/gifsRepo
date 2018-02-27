@@ -32,6 +32,8 @@ $("document").ready(function() {
 
 	$("#submit").on("click", function() {
 	newButton();
+	$("#textField").val("");
+
 
 	})
 
@@ -110,7 +112,7 @@ $(document).on("click", ".team", function() {
 
 		var newTeam = $("#textField").val().toLowerCase();
 		console.log(newTeam);
-		if(newTeam === "boston red sox"){
+		if((newTeam === "boston red sox") || (newTeam === "red sox")) {
 			alert("Death to the Boston Red Sox");
 		}
 
@@ -122,6 +124,7 @@ $(document).on("click", ".team", function() {
 		topics.push(newTeam);
 		$(".buttons-div").empty();
 		makeButtons();
+
 	}
 
 	function makeButtons() {
